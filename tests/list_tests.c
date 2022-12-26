@@ -4,9 +4,9 @@
 
 static List *list = NULL;
 
-int test1 = 1;
-int test2 = 2;
-int test3 = 3;
+char* test1 = "test1 data";
+char* test2 = "test2 data";
+char* test3 = "test3 data";
 
 char* test_create()
 {
