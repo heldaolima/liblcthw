@@ -1,3 +1,20 @@
+DEBUG: tests/darray_tests.c: main:125: ----- RUNNING: ./tests/darray_tests
+DEBUG: tests/darray_tests.c: all_tests:113: 
+----- test_create
+DEBUG: tests/darray_tests.c: all_tests:114: 
+----- test_new
+DEBUG: tests/darray_tests.c: all_tests:115: 
+----- test_set
+DEBUG: tests/darray_tests.c: all_tests:116: 
+----- test_get
+DEBUG: tests/darray_tests.c: all_tests:117: 
+----- test_remove
+DEBUG: tests/darray_tests.c: all_tests:118: 
+----- test_expand_contract
+DEBUG: tests/darray_tests.c: all_tests:119: 
+----- test_push_pop
+DEBUG: tests/darray_tests.c: all_tests:120: 
+----- test_destroy
 DEBUG: tests/list_algos_tests.c: main:87: ----- RUNNING: ./tests/list_algos_tests
 DEBUG: tests/list_algos_tests.c: all_tests:81: 
 ----- test_bubble_sort
