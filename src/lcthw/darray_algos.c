@@ -50,7 +50,7 @@ void _qsort(void* v, int size, int left, int right,
 
 int DArray_qsort(DArray *array, DArray_compare cmp)
 {
-    _qsort(array->contents, sizeof(char*), 0, DArray_count(array)-1, cmp);
+    _qsort(array->contents, sizeof(void*), 0, DArray_count(array)-1, cmp);
     return 0;
 }
 
