@@ -19,8 +19,11 @@ DArray* DArray_create(size_t element_size, size_t initial_max)
     return array;
 
     error:
-        if (array)
+        if (array) {
+            if (array->contents)
+                free(array->contents);
             free(array);
+        }
         return NULL;
 }
 
@@ -99,7 +102,7 @@ int DArray_push(DArray* array, void *el)
 
 void *DArray_pop(DArray* array)
 {
-    check(array->end -1 >= 0, "Attempt to poop from empty array.");
+    check(array->end -1 >= 0, "Attempt to pop from empty array.");
     void *el = DArray_remove(array, array->end -1);
     array->end--;
     

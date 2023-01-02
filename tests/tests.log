@@ -1,3 +1,8 @@
+DEBUG: tests/darray_algos_tests.c: main:77: ----- RUNNING: ./tests/darray_algos_tests
+DEBUG: tests/darray_algos_tests.c: all_tests:70: 
+----- test_qsort
+DEBUG: tests/darray_algos_tests.c: run_sort_test:40: --- Testing qsort sorting algorithm
+DEBUG: tests/darray_algos_tests.c: run_sort_test:42: Sorting algo called successfully
 DEBUG: tests/darray_tests.c: main:125: ----- RUNNING: ./tests/darray_tests
 DEBUG: tests/darray_tests.c: all_tests:113: 
 ----- test_create
@@ -33,3 +38,8 @@ DEBUG: tests/list_tests.c: all_tests:99:
 ----- test_shift
 DEBUG: tests/list_tests.c: all_tests:100: 
 ----- test_destroy
+DEBUG: tests/radixmap_tests.c: main:97: ----- RUNNING: ./tests/radixmap_tests
+DEBUG: tests/radixmap_tests.c: all_tests:92: 
+----- test_operations
+[ERROR] (src/lcthw/radixmap.c: RadixMap_delete:130: errno: None) There is nothing to delete.
+[ERROR] (tests/radixmap_tests.c: test_operations:74: errno: None) Didn't delete it.
