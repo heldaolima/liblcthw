@@ -9,8 +9,8 @@ int testcmp(char **a, char **b)
 DArray *create_words()
 {
     DArray *result = DArray_create(0, 5);
-    char *words[] = { "asdfasfd",
-        "werwar", "13234", "asdfasfd", "oioj" };
+    char *words[] = { "xaps",
+        "fdsdg", "asde", "bgb", "oioj" };
     int i = 0;
 
     for (i = 0; i < 5; i++) {
@@ -39,8 +39,8 @@ char *run_sort_test(int (*func) (DArray* array, DArray_compare cmp), const char 
     
     debug("--- Testing %s sorting algorithm", name);
     int rc = func(words, (DArray_compare) testcmp);
-    debug("Sorting algo called successfully");
-    mu_assert(rc == 0, "sort failed");
+    mu_assert(rc == 0, "Sort failed.");
+    debug("After sorting: ");
     mu_assert(is_sorted(words), "didn't sort it");
 
     DArray_destroy(words);
@@ -68,7 +68,7 @@ char* all_tests()
     mu_suite_start();
 
     mu_run_test(test_qsort);
-    // mu_run_test(test_heapsort);
+    mu_run_test(test_heapsort);
     // mu_run_test(test_mergesort);
 
     return NULL;
