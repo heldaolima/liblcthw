@@ -127,7 +127,7 @@ error:
 
 int RadixMap_delete(RadixMap *map, RMElement *el)
 {
-    check(map->end < 0, "There is nothing to delete.");
+    check(map->end > 0, "There is nothing to delete.");
     check(el != NULL, "Can't delete a NULL element.");
 
     el->data.key = UINT32_MAX;
