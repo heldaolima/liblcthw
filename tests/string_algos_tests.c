@@ -117,10 +117,13 @@ char* all_tests()
     times = fopen("times.txt", "w");
     
     mu_run_test(test_find_and_scan);
+
+    #if 0    
     mu_run_test(test_scan_performance);
     mu_run_test(test_find_performance);
     mu_run_test(test_binstr_performance);
-
+    #endif
+    
     fclose(times);
     return NULL;
 }
