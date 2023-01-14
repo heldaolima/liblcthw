@@ -12,8 +12,8 @@ TESTS=$(patsubst %.c,%,$(TEST_SRC))
 TARGET=build/liblcthw.a
 
 OS=$(shell lsb_release -si)
-ifeq ($(OS),Ubuntu)
-	LDLIBS=-llcthw -lbsd -L./build -lm
+ifeq ($(OS),Pop)
+	LDLIBS=-llcthw -L./build -lm
 endif
 
 # The Target Build

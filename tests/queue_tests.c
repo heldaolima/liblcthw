@@ -28,7 +28,6 @@ char *test_send_recv()
     int i = 0;
     for (i = 0; i < NUM_TESTS; i++) {
         Queue_send(queue, tests[i]);
-        debug("i=%d, peak=%s", i, (char*) Queue_peak(queue));
         mu_assert(Queue_peak(queue) == tests[0], "Wrong next value.");
     }
 

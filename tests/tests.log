@@ -73,18 +73,15 @@ DEBUG: tests/list_tests.c: all_tests:99:
 ----- test_shift
 DEBUG: tests/list_tests.c: all_tests:100: 
 ----- test_destroy
-DEBUG: tests/queue_tests.c: main:62: ----- RUNNING: ./tests/queue_tests
-DEBUG: tests/queue_tests.c: all_tests:55: 
+DEBUG: tests/queue_tests.c: main:61: ----- RUNNING: ./tests/queue_tests
+DEBUG: tests/queue_tests.c: all_tests:54: 
 ----- test_create
-DEBUG: tests/queue_tests.c: all_tests:56: 
+DEBUG: tests/queue_tests.c: all_tests:55: 
 ----- test_send_recv
-DEBUG: tests/queue_tests.c: test_send_recv:31: i=0, peak=test1 data
-DEBUG: tests/queue_tests.c: test_send_recv:31: i=1, peak=test1 data
-DEBUG: tests/queue_tests.c: test_send_recv:31: i=2, peak=test1 data
-DEBUG: tests/queue_tests.c: test_send_recv:38: VAL: test1 data
-DEBUG: tests/queue_tests.c: test_send_recv:38: VAL: test2 data
-DEBUG: tests/queue_tests.c: test_send_recv:38: VAL: test3 data
-DEBUG: tests/queue_tests.c: all_tests:57: 
+DEBUG: tests/queue_tests.c: test_send_recv:37: VAL: test1 data
+DEBUG: tests/queue_tests.c: test_send_recv:37: VAL: test2 data
+DEBUG: tests/queue_tests.c: test_send_recv:37: VAL: test3 data
+DEBUG: tests/queue_tests.c: all_tests:56: 
 ----- test_destroy
 DEBUG: tests/radixmap_tests.c: main:97: ----- RUNNING: ./tests/radixmap_tests
 DEBUG: tests/radixmap_tests.c: all_tests:92: 
@@ -99,6 +96,11 @@ DEBUG: tests/stack_tests.c: test_push_pop:37: VAL: test2 data
 DEBUG: tests/stack_tests.c: test_push_pop:37: VAL: test1 data
 DEBUG: tests/stack_tests.c: all_tests:56: 
 ----- test_destroy
+DEBUG: tests/stats_tests.c: main:73: ----- RUNNING: ./tests/stats_tests
+DEBUG: tests/stats_tests.c: all_tests:67: 
+----- test_operations
+sum: 55.846019, sumsq: 425.164097, n: 10, min: 0.333348, max: 9.678320, mean: 5.584602, stddev: 3.547868DEBUG: tests/stats_tests.c: all_tests:68: 
+----- test_recreate
 DEBUG: tests/string_algos_tests.c: main:131: ----- RUNNING: ./tests/string_algos_tests
 DEBUG: tests/string_algos_tests.c: all_tests:119: 
 ----- test_find_and_scan
