@@ -86,6 +86,14 @@ DEBUG: tests/queue_tests.c: all_tests:56:
 DEBUG: tests/radixmap_tests.c: main:97: ----- RUNNING: ./tests/radixmap_tests
 DEBUG: tests/radixmap_tests.c: all_tests:92: 
 ----- test_operations
+DEBUG: tests/ringbuffer_tests.c: main:96: ----- RUNNING: ./tests/ringbuffer_tests
+DEBUG: tests/ringbuffer_tests.c: all_tests:89: 
+----- test_create
+DEBUG: tests/ringbuffer_tests.c: all_tests:90: 
+----- test_read_write
+DEBUG: tests/ringbuffer_tests.c: test_read_write:26: data is: 0, space is: 100
+DEBUG: tests/ringbuffer_tests.c: all_tests:91: 
+----- test_destroy
 DEBUG: tests/stack_tests.c: main:61: ----- RUNNING: ./tests/stack_tests
 DEBUG: tests/stack_tests.c: all_tests:54: 
 ----- test_create
