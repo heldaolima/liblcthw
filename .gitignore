@@ -1,2 +1,5 @@
-./src/lcthw/*.o
+*.o
 *.log
+
+table.txt
+times.txt
