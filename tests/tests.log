@@ -112,3 +112,117 @@ sum: 55.846019, sumsq: 425.164097, n: 10, min: 0.333348, max: 9.678320, mean: 5.
 DEBUG: tests/string_algos_tests.c: main:131: ----- RUNNING: ./tests/string_algos_tests
 DEBUG: tests/string_algos_tests.c: all_tests:119: 
 ----- test_find_and_scan
+DEBUG: tests/bstree_tests.c: main:168: ----- RUNNING: ./tests/bstree_tests
+DEBUG: tests/bstree_tests.c: all_tests:158: 
+----- test_create
+DEBUG: tests/bstree_tests.c: all_tests:159: 
+----- test_get_set
+DEBUG: tests/bstree_tests.c: all_tests:160: 
+----- test_traverse
+DEBUG: tests/bstree_tests.c: traverse_good_cb:19: KEY: xest data 3
+DEBUG: tests/bstree_tests.c: traverse_good_cb:19: KEY: test data 2
+DEBUG: tests/bstree_tests.c: traverse_good_cb:19: KEY: test data 1
+DEBUG: tests/bstree_tests.c: traverse_fail_cb:26: KEY: xest data 3
+DEBUG: tests/bstree_tests.c: traverse_fail_cb:26: KEY: test data 2
+DEBUG: tests/bstree_tests.c: all_tests:161: 
+----- test_delete
+DEBUG: tests/bstree_tests.c: all_tests:162: 
+----- test_destroy
+DEBUG: tests/bstree_tests.c: all_tests:163: 
+----- test_fuzzing
+DEBUG: tests/darray_tests.c: main:125: ----- RUNNING: ./tests/darray_tests
+DEBUG: tests/darray_tests.c: all_tests:113: 
+----- test_create
+DEBUG: tests/darray_tests.c: all_tests:114: 
+----- test_new
+DEBUG: tests/darray_tests.c: all_tests:115: 
+----- test_set
+DEBUG: tests/darray_tests.c: all_tests:116: 
+----- test_get
+DEBUG: tests/darray_tests.c: all_tests:117: 
+----- test_remove
+DEBUG: tests/darray_tests.c: all_tests:118: 
+----- test_expand_contract
+DEBUG: tests/darray_tests.c: all_tests:119: 
+----- test_push_pop
+DEBUG: tests/darray_tests.c: all_tests:120: 
+----- test_destroy
+DEBUG: tests/hashmap_tests.c: main:119: ----- RUNNING: ./tests/hashmap_tests
+DEBUG: tests/hashmap_tests.c: all_tests:110: 
+----- test_create
+DEBUG: tests/hashmap_tests.c: all_tests:111: 
+----- test_get_set
+DEBUG: src/lcthw/hashmap.c: Hashmap_get_node:141: TRY: 0
+DEBUG: src/lcthw/hashmap.c: Hashmap_get_node:141: TRY: 0
+DEBUG: src/lcthw/hashmap.c: Hashmap_get_node:141: TRY: 0
+DEBUG: tests/hashmap_tests.c: all_tests:112: 
+----- test_traverse
+DEBUG: tests/hashmap_tests.c: traverse_good_cb:17: KEY: test data 3
+DEBUG: tests/hashmap_tests.c: traverse_good_cb:17: KEY: test data 1
+DEBUG: tests/hashmap_tests.c: traverse_good_cb:17: KEY: test data 2
+DEBUG: tests/hashmap_tests.c: traverse_fail_cb:24: KEY: test data 3
+DEBUG: tests/hashmap_tests.c: traverse_fail_cb:24: KEY: test data 1
+DEBUG: tests/hashmap_tests.c: all_tests:113: 
+----- test_delete
+DEBUG: src/lcthw/hashmap.c: Hashmap_get_node:141: TRY: 0
+DEBUG: src/lcthw/hashmap.c: Hashmap_get_node:141: TRY: 0
+DEBUG: src/lcthw/hashmap.c: Hashmap_get_node:141: TRY: 0
+DEBUG: tests/hashmap_tests.c: all_tests:114: 
+----- test_destroy
+DEBUG: tests/list_algos_tests.c: main:87: ----- RUNNING: ./tests/list_algos_tests
+DEBUG: tests/list_algos_tests.c: all_tests:81: 
+----- test_bubble_sort
+DEBUG: tests/list_algos_tests.c: all_tests:82: 
+----- test_merge_sort
+DEBUG: tests/list_tests.c: main:105: ----- RUNNING: ./tests/list_tests
+DEBUG: tests/list_tests.c: all_tests:95: 
+----- test_create
+DEBUG: tests/list_tests.c: all_tests:96: 
+----- test_push_pop
+DEBUG: tests/list_tests.c: all_tests:97: 
+----- test_unshift
+DEBUG: tests/list_tests.c: all_tests:98: 
+----- test_remove
+DEBUG: tests/list_tests.c: all_tests:99: 
+----- test_shift
+DEBUG: tests/list_tests.c: all_tests:100: 
+----- test_destroy
+DEBUG: tests/queue_tests.c: main:61: ----- RUNNING: ./tests/queue_tests
+DEBUG: tests/queue_tests.c: all_tests:54: 
+----- test_create
+DEBUG: tests/queue_tests.c: all_tests:55: 
+----- test_send_recv
+DEBUG: tests/queue_tests.c: test_send_recv:37: VAL: test1 data
+DEBUG: tests/queue_tests.c: test_send_recv:37: VAL: test2 data
+DEBUG: tests/queue_tests.c: test_send_recv:37: VAL: test3 data
+DEBUG: tests/queue_tests.c: all_tests:56: 
+----- test_destroy
+DEBUG: tests/radixmap_tests.c: main:97: ----- RUNNING: ./tests/radixmap_tests
+DEBUG: tests/radixmap_tests.c: all_tests:92: 
+----- test_operations
+DEBUG: tests/ringbuffer_tests.c: main:96: ----- RUNNING: ./tests/ringbuffer_tests
+DEBUG: tests/ringbuffer_tests.c: all_tests:89: 
+----- test_create
+DEBUG: tests/ringbuffer_tests.c: all_tests:90: 
+----- test_read_write
+DEBUG: tests/ringbuffer_tests.c: test_read_write:26: data is: 0, space is: 100
+DEBUG: tests/ringbuffer_tests.c: all_tests:91: 
+----- test_destroy
+DEBUG: tests/stack_tests.c: main:61: ----- RUNNING: ./tests/stack_tests
+DEBUG: tests/stack_tests.c: all_tests:54: 
+----- test_create
+DEBUG: tests/stack_tests.c: all_tests:55: 
+----- test_push_pop
+DEBUG: tests/stack_tests.c: test_push_pop:37: VAL: test3 data
+DEBUG: tests/stack_tests.c: test_push_pop:37: VAL: test2 data
+DEBUG: tests/stack_tests.c: test_push_pop:37: VAL: test1 data
+DEBUG: tests/stack_tests.c: all_tests:56: 
+----- test_destroy
+DEBUG: tests/stats_tests.c: main:73: ----- RUNNING: ./tests/stats_tests
+DEBUG: tests/stats_tests.c: all_tests:67: 
+----- test_operations
+sum: 55.846019, sumsq: 425.164097, n: 10, min: 0.333348, max: 9.678320, mean: 5.584602, stddev: 3.547868DEBUG: tests/stats_tests.c: all_tests:68: 
+----- test_recreate
+DEBUG: tests/string_algos_tests.c: main:131: ----- RUNNING: ./tests/string_algos_tests
+DEBUG: tests/string_algos_tests.c: all_tests:119: 
+----- test_find_and_scan
