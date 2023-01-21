@@ -1,4 +1,5 @@
 #undef NDEBUG
+
 #include <stdlib.h>
 #include <sys/select.h>
 #include <stdio.h>
@@ -11,8 +12,8 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <statserve/net.h>
 
-#define PORT 7899
 #define BUFFER_SIZE 1024
 
 #define equal_strs(s1, s2) (strcmp((s1), (s2)) == 0)
@@ -43,39 +44,28 @@ error:
 }
 
 
-int main(int argc, char* argv[])
+
+int server_echo(const char* host, const char *port)
 {
-    // bstring local = bsStatic("127.0.0.1");
+    check(host != NULL, "Invalid host.");
+    check(port != NULL, "Invalid port.");
+
     int server_fd, client_fd; 
     struct sockaddr_in server_addr, client_addr;
     int rc;
 
-    server_fd = socket(AF_INET, SOCK_STREAM, 0); 
-    check(server_fd != -1, "Failed to create server socket.");
-
-
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(PORT);
-    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    server_fd = server_listen(host, port); 
+    check(server_fd >= 0, "Failed to create server socket.");
 
     socklen_t server_len = sizeof(server_addr);
     socklen_t client_len = sizeof(client_addr);
 
-    int opt_val = 1;
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt_val, sizeof(opt_val));
-
-    rc = bind(server_fd, (struct sockaddr *) &server_addr, server_len);
-    check(rc >= 0, "Could not bind socket.");
-
-    rc = listen(server_fd, 128);
-    check(rc >= 0, "Fail on listen.");
-
-    log_info("Server is listening at %d", PORT);
+    log_info("Server is listening at %s", port);
 
     while (1) {
         client_fd = accept(server_fd, (struct sockaddr *) &client_addr, &client_len);
-        check(client_fd > 0, "Failed to establish connection with client.");
+        check(client_fd >= 0, "Failed toaccept connection.");
+        
         log_info("Connected: %s:%d, file descriptor: %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), client_fd);
 
         echo(client_fd);

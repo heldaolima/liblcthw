@@ -9,7 +9,7 @@ OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 TEST_SRC=$(wildcard tests/*_tests.c)
 TESTS=$(patsubst %.c,%,$(TEST_SRC))
 
-PROGRAMS_SRC = $(wildcard bin/*.c)
+PROGRAMS_SRC = $(wildcard bin/*.c src/**/bin/*.c)
 PROGRAMS = $(patsubst %.c,%,$(PROGRAMS_SRC))
 
 TARGET=build/liblcthw.a
