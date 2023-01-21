@@ -16,6 +16,7 @@ TSTree* add_route_data(TSTree* routes, bstring line)
     return routes;
 
 error:
+    if (data) bstrListDestroy(data);
     return NULL;
 
 }
@@ -34,7 +35,7 @@ TSTree* load_routes(const char *file)
         check(btrimws(line) == BSTR_OK, "Failed to trim line.");
         routes = add_route_data(routes, line);
         check(routes != NULL, "Failed to add route.");
-        bdestroy(line);
+        bdestroy(line); line = NULL;
     }
 
     fclose(routes_map);
