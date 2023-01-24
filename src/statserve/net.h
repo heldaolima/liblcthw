@@ -2,6 +2,7 @@
 #define _net_h
 
 #include <lcthw/ringbuffer.h>
+#include <lcthw/bstrlib.h>
 
 #define BACKLOG 10
 
@@ -10,5 +11,6 @@ int client_connect(char *host, char *port);
 int read_some(RingBuffer* buffer, int fd, int is_socket);
 int write_some(RingBuffer* buffer, int fds, int is_socket);
 int server_listen(const char *host, const char *port);
+bstring read_line(RingBuffer* input, const char line_ending);
 
 #endif

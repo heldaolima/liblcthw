@@ -10,7 +10,8 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "net.h"
+
+#include <statserve/net.h>
 
 struct tagbstring NL = bsStatic("\n");
 struct tagbstring CRLF = bsStatic("\r\n");
@@ -161,4 +162,27 @@ int server_listen(const char* host, const char* port)
 error:
     if (info) freeaddrinfo(info);
     return sock_fd;
+}
+
+bstring read_line(RingBuffer* input, const char line_ending)
+{
+    int i = 0;
+    bstring result = NULL;
+
+    for (i = 0; i < RingBuffer_available_data(input); i++) {
+        if (input->buffer[i] == line_ending) {
+            result = RingBuffer_gets(input, i); //get s from input to i
+            check(result, "Failed to get line from RingBuffer.");
+
+            check(RingBuffer_available_data(input) >= 1, "Not enough data in the RingBuffer after reading line.");
+
+            RingBuffer_commit_read(input, 1);
+            break;
+        }
+    }
+
+    return result;
+
+error:
+    return NULL;
 }
