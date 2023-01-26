@@ -1,6 +1,7 @@
 #undef NDEBUG
 #include <stdlib.h>
 #include <sys/select.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -9,15 +10,14 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <statserve/net.h>
 
+#include <statserve/net.h>
 #include <lcthw/dbg.h>
-#include <lcthw/bstrlib.h>
 #include <lcthw/hashmap.h>
 #include <lcthw/stats.h>
 
 #define BUFFER_SIZE 1024
-#define RB_SIZE 1024 * 10
+const int RB_SIZE = 1024 * 10;
 
 #define equal_strs(s1, s2) (strcmp((s1), (s2)) == 0)
 
@@ -34,7 +34,7 @@ struct tagbstring DNE = bsStatic("DNE\n");
 struct tagbstring EXISTS = bsStatic("EXISTS\n");
 const char LINE_ENDING = '\n';
 
-Hashmap* DATA = NULL;
+Hashmap *DATA = NULL;
 
 struct Command;
 
@@ -51,35 +51,6 @@ typedef struct Record {
     bstring name;
     Stats *stat;
 } Record;
-
-/*
-
-
-
-
-bstring read_line(RingBuffer* input, const char line_ending)
-{
-    int i = 0;
-    bstring result = NULL;
-
-    for (i = 0; i < RingBuffer_available_data(input); i++) {
-        if (input->buffer[i] == line_ending) {
-            result = RingBuffer_gets(input, i); //get s from input to i
-            check(result, "Failed to get line from RingBuffer.");
-
-            check(RingBuffer_available_data(input) >= 1, "Not enough data in the RingBuffer after reading line.");
-
-            RingBuffer_commit_read(input, 1);
-            break;
-        }
-    }
-
-    return result;
-
-error:
-    return NULL;
-}
-*/
 
 void echo(int client_fd)
 {
@@ -111,7 +82,7 @@ void send_reply(RingBuffer *send_rb, bstring reply)
     RingBuffer_puts(send_rb, reply);
 }
 
-int handle_create(struct Command *cmd, RingBuffer *send_rb)
+int handle_create(Command *cmd, RingBuffer *send_rb)
 {
     int rc = 0;
 
@@ -119,7 +90,7 @@ int handle_create(struct Command *cmd, RingBuffer *send_rb)
         send_reply(send_rb, &EXISTS);
     } else {
 	// allocate a record
-        debug("Create %s:%s", bdata(cmd->name), bdata(cmd->number));
+        debug("Create: %s %s", bdata(cmd->name), bdata(cmd->number));
 
         Record *info = calloc(1, sizeof(Record));
         check_mem(info);
@@ -142,11 +113,10 @@ int handle_create(struct Command *cmd, RingBuffer *send_rb)
     return 0;
 
 error:
-
     return -1;
 }
 
-int handle_sample(struct Command *cmd, RingBuffer *send_rb)
+int handle_sample(Command *cmd, RingBuffer *send_rb)
 {
     log_info("sample: %s", cmd->name);
     Record *info = Hashmap_get(DATA, cmd->name);
@@ -163,7 +133,27 @@ int handle_sample(struct Command *cmd, RingBuffer *send_rb)
     return 0;
 }
 
-int handle_mean(struct Command* cmd, RingBuffer *send_rb)
+int handle_delete(Command *cmd, RingBuffer *send_rb)
+{
+    log_info("delete: %s", bdata(cmd->name));
+    Record *info = Hashmap_get(DATA, cmd->name);
+
+    if (info == NULL) {
+        send_reply(send_rb, &DNE);
+    } else {
+        Hashmap_delete(DATA, cmd->name);
+
+        free(info->stat);
+        bdestroy(info->name);
+        free(info);
+
+        send_reply(send_rb, &OK);
+    }
+
+    return 0;
+}
+
+int handle_mean(Command *cmd, RingBuffer *send_rb)
 {
     log_info("Mean %s", bdata(cmd->name));
     Record *info = Hashmap_get(DATA, cmd->name);
@@ -179,9 +169,9 @@ int handle_mean(struct Command* cmd, RingBuffer *send_rb)
     return 0;
 }
 
-int handle_stddev(struct Command *cmd, RingBuffer *send_rb)
+int handle_stddev(Command *cmd, RingBuffer *send_rb)
 {
-    log_info("stddev %s", bdata(cmd->name));
+    log_info("stddev: %s", bdata(cmd->name));
     Record *info = Hashmap_get(DATA, cmd->name);
 
     if (info == NULL) {
@@ -195,7 +185,7 @@ int handle_stddev(struct Command *cmd, RingBuffer *send_rb)
     return 0;
 }
 
-int handle_dump(struct Command *cmd, RingBuffer *send_rb)
+int handle_dump(Command *cmd, RingBuffer *send_rb)
 {
     log_info("dump: %s", bdata(cmd->name));
     Record *info = Hashmap_get(DATA, cmd->name);
@@ -219,31 +209,12 @@ int handle_dump(struct Command *cmd, RingBuffer *send_rb)
     return 0;
 }
 
-int handle_delete(struct Command *cmd, RingBuffer *send_rb) 
-{
-    log_info("delete: %s", bdata(cmd->name));
-    Record* info = Hashmap_get(DATA, cmd->name);
-
-    if (info == NULL) {
-        send_reply(send_rb, &DNE);
-    } else {
-        Hashmap_delete(DATA, cmd->name);
-        
-        free(info->stat);
-        bdestroy(info->name);
-        free(info);
-
-        send_reply(send_rb, &OK);
-    }
-
-    return 0;
-}
-
-int parse_command(struct bstrList* splits, Command* cmd)
+int parse_command(struct bstrList *splits, Command *cmd)
 {
     cmd->command = splits->entry[0];
+
     if (biseq(cmd->command, &CREATE)) {
-        check(splits->qty == 3, "Failed to create: %d", splits->qty);
+        check(splits->qty == 3, "Failed to parse create: %d", splits->qty);
         cmd->name = splits->entry[1];
         cmd->number = splits->entry[2];
         cmd->handler = handle_create;
@@ -258,22 +229,27 @@ int parse_command(struct bstrList* splits, Command* cmd)
         cmd->handler = handle_sample;
     } else if (biseq(cmd->command, &DUMP)) {
         check(splits->qty == 2, "Failed to parse dump: %d", splits->qty);
-
+        cmd->name = splits->entry[1];
+        cmd->handler = handle_dump;
     } else if (biseq(cmd->command, &DELETE)) {
         check(splits->qty == 2, "Failed to parse delete: %d", splits->qty);
-
+        cmd->name = splits->entry[1];
+        cmd->handler = handle_delete;
     } else if (biseq(cmd->command, &STDDEV)) {
         check(splits->qty == 2, "Failed to parse stddev: %d", splits->qty);
-
+        cmd->name = splits->entry[1];
+        cmd->handler = handle_stddev;
     } else {
         sentinel("Failed to parse the command: unknown");
     }
+
+    return 0;
 
 error:
     return -1;
 }
 
-int parse_line(bstring data, RingBuffer* send_rb)
+int parse_line(bstring data, RingBuffer *send_rb)
 {
     int rc = -1;
     Command cmd = {.command = NULL};
@@ -282,12 +258,12 @@ int parse_line(bstring data, RingBuffer* send_rb)
     check(splits != NULL, "Bad data.");
 
     rc = parse_command(splits, &cmd);
-    check(rc == 0, "Failed to parse command");
+    check(rc == 0, "Failed to parse command.");
 
     rc = cmd.handler(&cmd, send_rb);
     
 
-error: //fallthrough
+error: // fallthrough
     if (splits) bstrListDestroy(splits);
     return rc;
 
@@ -296,8 +272,8 @@ error: //fallthrough
 void client_handler(int client_fd)
 {
     int rc = 0;
-    RingBuffer* recv_rb = RingBuffer_create(RB_SIZE);
-    RingBuffer* send_rb = RingBuffer_create(RB_SIZE);
+    RingBuffer *recv_rb = RingBuffer_create(RB_SIZE);
+    RingBuffer *send_rb = RingBuffer_create(RB_SIZE);
 
     check_mem(recv_rb);
     check_mem(send_rb);
@@ -318,10 +294,9 @@ void client_handler(int client_fd)
     rc = close(client_fd);
     check(rc != -1, "Failed to close the socket.");
 
-error:
+error: // fallthrough
     if (recv_rb) RingBuffer_destroy(recv_rb);
     if (send_rb) RingBuffer_destroy(send_rb);
-    exit(0);
 }
 
 int setup_data()
@@ -335,7 +310,7 @@ error:
     return -1;
 }
 
-int server_echo(const char* host, const char *port)
+int server_echo(const char *host, const char *port)
 {
     check(host != NULL, "Invalid host.");
     check(port != NULL, "Invalid port.");
